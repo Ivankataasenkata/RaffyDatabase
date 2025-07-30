@@ -5,6 +5,7 @@ const { configDatabase } = require('./config/database');
 const { Breakfast } = require('./models/BreakfastMeal');
 const { Lunch } = require('./models/LunchMeal');
 const { Dinner } = require('./models/DinnerMeal');
+const { User } = require('./models/user');
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,6 +14,7 @@ async function start() {
 
     await configDatabase();
     app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
+    app.use(express.json());
     app.use(router);
 
     
@@ -24,6 +26,12 @@ async function start() {
     //     timeToPrepare: '20 mins',
     //     alergines: 'Dairy, Gluten'
     // })
+
+    // await User.create({
+    //     username: 'Brat',
+    //     email: 'brat.smith@gmail.com',
+    //     phone: '+359 885 888 333'
+    // });
 
     app.listen(PORT, () => {
         console.log(`Application is running on port ${PORT}`);
