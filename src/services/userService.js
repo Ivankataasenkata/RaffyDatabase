@@ -13,9 +13,18 @@ async function saveUser(username, password, email) {
 }
 
 async function updateAUser(userId, userData) {
-    const updatedUser = await User.findByIdAndUpdate(userId, userData);
+    const updatedUser = await User.findByIdAndUpdate(userId, userData, { new: true });
 
-    return res.json(updateAUser);
+   if (!updatedUser) {
+        // Handle the case where no user was found
+        throw new Error('User not found');
+    }
+
+    return updatedUser.populate('reservationId');
 }
 
-module.exports = {getAllUsers, saveUser, updateAUser};
+async function getAUserByName(username) {
+    return await User.findOne({ username }).populate('reservationId');
+}
+
+module.exports = {getAllUsers, saveUser, updateAUser,getAUserByName};

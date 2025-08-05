@@ -1,4 +1,4 @@
-const { getAllUsers, saveUser } = require("../services/userService");
+const { getAllUsers, saveUser, updateAUser, getAUserByName } = require("../services/userService");
 
 
 module.exports = {
@@ -23,7 +23,22 @@ module.exports = {
     updateUser: async (req, res) => {
         const userId = req.params.id;
         const updateUserData = req.body;
+        const user = await updateAUser(userId, updateUserData);
+        return res.json(user);
+    },
 
-        await updateAUser(userId, updateUserData);
+    getUserByUsername: async (req, res) => {
+    
+    try {
+            const {username} = req.params;
+            const user = await getAUserByName(username);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
     }
 };
