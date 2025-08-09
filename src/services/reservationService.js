@@ -13,6 +13,8 @@ async function saveReservation(date, tableType, hour, people, userId) {
 async function updateAReservation(reservationId, reservationData) {
     const updateReservation = await Reservation.findByIdAndUpdate(reservationId, reservationData);
 
+    console.log('find reservatin  - ' + updateReservation);
+
     return res.json(updateReservation);
 }
 
